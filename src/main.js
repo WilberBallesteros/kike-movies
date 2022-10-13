@@ -1,8 +1,18 @@
-async function getTrendingMoviesPreview() {
-    const res = await fetch('https://api.themoviedb.org/3/trending/movie/day?api_key=' + API_KEY);
-    const data = await res.json();
+//axios
+const api = axios.create({
+    baseURL: 'https://api.themoviedb.org/3/',
+    headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+    },
+    params: {
+        'api_key': API_KEY,
+    }
+});
 
-    const movies = data.results;
+async function getTrendingMoviesPreview() {
+
+    const {data} = await api('trending/movie/day');
+    const movies = data.results; //results de la api
     //console.log({data, movies});
     movies.forEach(movie => {
 
@@ -24,8 +34,7 @@ async function getTrendingMoviesPreview() {
 }
 
 async function getCategoriesPreview() {
-    const res = await fetch('https://api.themoviedb.org/3/genre/movie/list?api_key=' + API_KEY);
-    const data = await res.json();
+    const {data} = await api('genre/movie/list');
 
     const categories = data.genres; //genres por q asi esta en la api
     //console.log({data, movies});
